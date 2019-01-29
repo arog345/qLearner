@@ -48,9 +48,29 @@ def plotGraph(adjacencyMatrix):
     
     pyplot.show()
 
+def getRewardMatrix(adjacencyMatrix):
+    (numberNodes,_) = adjacencyMatrix.shape
+    #For the reward matrix:
+    #If a transistion is not possible, make reward -10
+    #If transistion is possible make reward -1
+    
+    #Thought process is that impossible transistions should be penalized
+    #not sure if can use null, and may have to use something larger than -10
+    #I believe it is necessary to also penalize movement because it may be
+    #possible that the "agent" gets stuck going between nodes
+    #the potential infinite loop could maybe be avoided by having some sort of
+    #memory component but I'm hoping a -1 should be effective
+
+    #Since it is python list comprehension
+    rewardMatrix = np.array([[-10 if adjacencyMatrix[x][y]==0 else -1 
+                     for x in range(numberNodes)]
+                     for y in range(numberNodes)])
+    return rewardMatrix
+
 
 if __name__ == '__main__':
     NUM_NODES = 8
 
     adjacencyMatrix = buildGraph(NUM_NODES)
     plotGraph(adjacencyMatrix)
+    rewardMatrix = getRewardMatrix(adjacencyMatrix)
