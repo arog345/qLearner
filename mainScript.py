@@ -5,9 +5,9 @@ from matplotlib import pyplot
 
 def main():
     NUM_NODES = 5
-    GAMMA = 0.8
+    GAMMA = 0.5
     NUM_EPISODES = 1
-
+    np.random.seed(46544456)
     adjacencyMatrix = buildGraph(NUM_NODES)
 
     # Create object to track the reward amounts for different actions
@@ -17,16 +17,19 @@ def main():
     # Some code -- not really sure if this works
     Q = np.empty_like(adjacencyMatrix)
     episode = 0
-
+    np.random.seed()
     # For ease, just run a set number of episodes
     while episode < NUM_EPISODES:
 
         # Choose a random starting node
         currentNode = np.random.randint(0, adjacencyMatrix.shape[0])
         rewardCalc.reset()
+        path = []
 
         # Run one episode
         while not rewardCalc.hasReachedGoal():
+            rewardCalc.visitNode(currentNode)
+            path.append(currentNode)
             possibleNodes = rewardCalc.getActionsForNode(currentNode)
             nextNode = possibleNodes[np.random.randint(0, len(possibleNodes))]
 
@@ -37,11 +40,11 @@ def main():
             rewardForAction = rewardCalc.getReward(currentNode, nextNode)
             Q[currentNode][nextNode] = rewardForAction + GAMMA * max(qValuesForNextNode)
 
-            rewardCalc.visitNode(nextNode)
             currentNode = nextNode
-
+        print(f'Path for episode {episode}: {path}')
         episode += 1
-    
+
+    # Comment these out to just run it alot     
     print(Q)
     plotGraph(adjacencyMatrix)
 
@@ -125,7 +128,7 @@ class RewardCalculator:
         elif toNode in self.visitedNodes:
             return -1
         else:
-            return 1
+            return 10
 
     def visitNode(self, node):
         self.__validateNodeNumber(node, "node")
