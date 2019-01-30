@@ -9,7 +9,6 @@ def main():
     NUM_EPISODES = 1
 
     adjacencyMatrix = buildGraph(NUM_NODES)
-    plotGraph(adjacencyMatrix)
 
     # Create object to track the reward amounts for different actions
     rewardCalc = RewardCalculator(adjacencyMatrix) 
@@ -44,6 +43,7 @@ def main():
         episode += 1
     
     print(Q)
+    plotGraph(adjacencyMatrix)
 
 
 def buildGraph(numberNodes):
