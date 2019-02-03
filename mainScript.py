@@ -10,6 +10,8 @@ def main():
     np.random.seed(46544456)
     adjacencyMatrix = buildGraph(NUM_NODES)
 
+    # Test
+
     # Create object to track the reward amounts for different actions
     rewardCalc = RewardCalculator(adjacencyMatrix) 
 
