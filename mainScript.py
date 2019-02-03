@@ -34,7 +34,7 @@ def main():
             nextNode = possibleNodes[np.random.randint(0, len(possibleNodes))]
 
             qValuesForNextNode = [
-                rewardCalc.getReward(nextNode, x)
+                rewardCalc.getReward(nextNode, x) #this is a bug!
                 for x in rewardCalc.getActionsForNode(nextNode)
             ]
             rewardForAction = rewardCalc.getReward(currentNode, nextNode)
